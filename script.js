@@ -1,21 +1,25 @@
- function validateAndSubmit(event) {
+ document.getElementById("userForm").addEventListener("submit", function(event) {
             event.preventDefault();
             
-            let name = document.getElementById("name").value.trim();
-            let age = document.getElementById("age").value.trim();
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
             
             if (!name || !age) {
-                alert("Both fields are required.");
+                alert("Please fill out both fields.");
                 return;
             }
             
-            age = Number(age);
+            age = parseInt(age);
             
             new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    age > 18 ? resolve() : reject();
+                    if (age >= 18) {
+                        resolve(`Welcome, ${name}. You can vote.`);
+                    } else {
+                        reject(`Oh sorry ${name}. You aren't old enough.`);
+                    }
                 }, 4000);
             })
-            .then(() => alert(`Welcome, ${name}. You can vote.`))
-            .catch(() => alert(`Oh sorry ${name}. You aren't old enough.`));
-        }
+            .then(message => alert(message))
+            .catch(error => alert(error));
+        });
